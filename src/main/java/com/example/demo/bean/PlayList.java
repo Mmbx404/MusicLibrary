@@ -14,6 +14,7 @@ public class PlayList {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String libelle;
+	@OneToMany
 	List<Song> songs = new ArrayList<Song>();
 	@OneToMany
 	List<PlayListSong> playListSongs = new ArrayList<PlayListSong>();

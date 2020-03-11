@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Artist {
@@ -14,7 +15,9 @@ public class Artist {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String name;
+	@OneToMany
 	List<Album> albums = new ArrayList<Album>();
+	@OneToMany
 	List<Song> songs = new ArrayList<Song>();
 	public Long getId() {
 		return id;

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Album {
@@ -17,6 +18,7 @@ public class Album {
 	Long id;
 	String libelle;
 	Date releaseDate;
+	@OneToMany
 	List<Song> songs = new ArrayList<Song>();
 	@ManyToOne
 	Artist artist;
