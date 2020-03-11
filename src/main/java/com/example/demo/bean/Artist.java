@@ -9,14 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 public class Artist {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String name;
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@OneToMany
 	List<Album> albums = new ArrayList<Album>();
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@OneToMany
 	List<Song> songs = new ArrayList<Song>();
 	public Long getId() {
