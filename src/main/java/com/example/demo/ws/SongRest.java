@@ -61,10 +61,7 @@ public class SongRest {
 	public List<Song> findByArtistId(@PathVariable("id") Long id) {
 		return songService.findByArtistId(id);
 	}
-	@GetMapping("findByPlayListSongsPlayListId/Id/{id}")
-	public List<Song> findByPlayListSongsPlayListId(@PathVariable("id") Long id) {
-		return songService.findByPlayListSongsPlayListId(id);
-	}
+
 	@GetMapping("/findByGenreId/Id/{id}")
 	public List<Song> findByGenreId(@PathVariable("id") Long id) {
 		return songService.findByGenreId(id);

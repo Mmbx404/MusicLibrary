@@ -92,10 +92,7 @@ public class SongServiceImpl implements SongService{
 		return songDao.findByArtistId(id);
 	}
 
-	@Override
-	public List<Song> findByPlayListSongsPlayListId(Long id) {
-		return songDao.findByPlayListSongsPlayListId(id);
-	}
+
 
 	@Override
 	public List<Song> findByGenreId(Long id) {

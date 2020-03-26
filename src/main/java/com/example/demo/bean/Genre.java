@@ -8,13 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String libelle;
-	@OneToMany
+	@OneToMany(mappedBy = "genre")
+	@JsonBackReference
 	List<Song> songs = new ArrayList<Song>();
 	public Long getId() {
 		return id;

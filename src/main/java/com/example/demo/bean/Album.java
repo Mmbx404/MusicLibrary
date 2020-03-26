@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Album {
@@ -17,11 +26,18 @@ public class Album {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String libelle;
+	@Temporal(TemporalType.DATE)
 	Date releaseDate;
-	@OneToMany
+	@OneToMany(mappedBy = "album")
+	@JsonBackReference
 	List<Song> songs = new ArrayList<Song>();
 	@ManyToOne
+	@JsonManagedReference
 	Artist artist;
+	@Lob
+	@Basic(fetch=FetchType.LAZY)
+	@Column(name="ALB_PIC")
+	Byte[] picture;
 	public Long getId() {
 		return id;
 	}

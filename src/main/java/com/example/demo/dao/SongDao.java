@@ -12,6 +12,5 @@ public interface SongDao extends JpaRepository<Song, Long> {
 	public List<Song> findByReleaseDate(Date releaseDate);
 	public List<Song> findByAlbumId(Long id);
 	public List<Song> findByArtistId(Long id);
-	public List<Song> findByPlayListSongsPlayListId(Long id);
 	public List<Song> findByGenreId(Long id);
 }
