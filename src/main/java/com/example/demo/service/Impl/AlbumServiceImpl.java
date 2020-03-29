@@ -17,6 +17,7 @@ public class AlbumServiceImpl implements AlbumSerivce {
 	AlbumDao albumDao;
 	@Autowired
 	ArtistDao artistDao;
+
 	@Override
 	public List<Album> findAll() {
 		return albumDao.findAll();
@@ -24,22 +25,28 @@ public class AlbumServiceImpl implements AlbumSerivce {
 
 	@Override
 	public Album findById(Long id) {
-		if (albumDao.findById(id).isPresent()) return albumDao.findById(id).get();
-		else return null;
+		if (albumDao.findById(id).isPresent())
+			return albumDao.findById(id).get();
+		else
+			return null;
 	}
 
 	@Override
 	public int deleteAll() {
 		albumDao.deleteAll();
-		if (findAll() == null) return 1;
-		else return -1;
+		if (findAll() == null)
+			return 1;
+		else
+			return -1;
 	}
 
 	@Override
 	public int deleteById(Long id) {
 		albumDao.deleteById(id);
-		if (findById(id) == null) return 1;
-		else return -1;
+		if (findById(id) == null)
+			return 1;
+		else
+			return -1;
 	}
 
 	@Override
@@ -47,17 +54,19 @@ public class AlbumServiceImpl implements AlbumSerivce {
 		if (findById(id) != null && artistDao.findById(album.getArtist().getId()) != null) {
 			albumDao.save(album);
 			return 1;
-		}
-		else return -1;
+		} else
+			return -1;
 	}
 
 	@Override
 	public int save(Album album) {
-		if (findById(album.getId()) == null && artistDao.findById(album.getArtist().getId()) != null) {
-			albumDao.save(album);
-			return 1;
-		}
-		else return -1;
+		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
+			return -2;
+		if (findByLibelle(album.getLibelle()) != null || artistDao.findById(album.getArtist().getId()) == null)
+			return -1;
+
+		albumDao.save(album);
+		return 1;
 	}
 
 	@Override
