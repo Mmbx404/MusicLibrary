@@ -18,4 +18,5 @@ public interface SongService {
 	public List<Song> findByArtistId(Long id);
 
 	public List<Song> findByGenreId(Long id);
+	List<Song> searchByLibelle(String libelle);
 }

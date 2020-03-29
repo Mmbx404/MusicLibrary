@@ -12,4 +12,5 @@ public interface ArtistService {
 	public int update(Long id,Artist artist);
 	public int save(Artist artist);
 	public Artist findbyName(String name);
+	List<Artist> searchByName(String name);
 }

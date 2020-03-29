@@ -9,6 +9,11 @@ public class TransactionFailedException extends RuntimeException {
 	    public TransactionFailedException(String message, Throwable cause) {
 	        super("Transaction Failed :"+message, cause);
 	    }
+
+		public TransactionFailedException() {
+			// TODO Auto-generated constructor stub
+			super();
+		}
 	
 
 }

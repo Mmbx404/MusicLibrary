@@ -12,4 +12,5 @@ public interface PlayListService {
 	public int update(Long id,PlayList playList);
 	public int save(PlayList playList);
 	public PlayList findByLibelle(String libelle);
+	public List<PlayList> searchByLibelle(String libelle);
 }

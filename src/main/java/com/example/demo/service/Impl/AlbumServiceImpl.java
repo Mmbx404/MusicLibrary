@@ -1,6 +1,5 @@
 package com.example.demo.service.Impl;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.bean.Album;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.AlbumDao;
-import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.AlbumSerivce;
 import com.example.demo.service.facade.ArtistService;
 import com.example.demo.service.facade.SongService;
@@ -61,15 +59,18 @@ public class AlbumServiceImpl implements AlbumSerivce {
 	public int update(Long id, Album album) {
 		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
 			return -2;
-		if (findById(id) == null || artistService.findById(album.getArtist().getId()) == null || findByLibelle(album.getLibelle()) != null)
+		if (findById(id) == null || artistService.findById(album.getArtist().getId()) == null
+				|| findByLibelle(album.getLibelle()) != null)
 			return -1;
 		if (album.getSongs().size() > 0) {
-			
-			for (Song song : album.getSongs()) {		
-				if(song.getId() != null)  songService.update(song.getId(),song);
-				else songService.save(song);
+
+			for (Song song : album.getSongs()) {
+				if (songService.findByLibelle(song.getLibelle()) != null)
+					songService.update(song.getId(), song);
+				else
+					songService.save(song);
 			}
-			}
+		}
 		albumDao.save(album);
 		return 1;
 
@@ -77,18 +78,14 @@ public class AlbumServiceImpl implements AlbumSerivce {
 
 	@Override
 	@Transactional
-	public int save(Album album)  {
+	public int save(Album album) {
 		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
 			return -2;
 		if (findByLibelle(album.getLibelle()) != null || artistService.findById(album.getArtist().getId()) == null)
 			return -1;
 		if (album.getSongs().size() > 0) {
-			int success = 0;
 			for (Song song : album.getSongs()) {
-				success = songService.save(song);
-				if (success != 1)
-					throw new TransactionFailedException(
-							"Song at" + album.getSongs().indexOf(song) + "not saved with error code" + success);
+				songService.save(song);
 			}
 		}
 		albumDao.save(album);
@@ -112,7 +109,7 @@ public class AlbumServiceImpl implements AlbumSerivce {
 
 	@Override
 	public List<Album> searchByLibelle(String libelle) {
-		
+
 		return albumDao.searchByLibelle(libelle);
 	}
 

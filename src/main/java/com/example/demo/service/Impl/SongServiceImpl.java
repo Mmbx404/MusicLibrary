@@ -3,17 +3,23 @@ package com.example.demo.service.Impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.bean.PlayList;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.SongDao;
+import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.AlbumSerivce;
 import com.example.demo.service.facade.ArtistService;
 import com.example.demo.service.facade.GenreService;
+import com.example.demo.service.facade.PlayListService;
 import com.example.demo.service.facade.SongService;
+
 @Service
-public class SongServiceImpl implements SongService{
+public class SongServiceImpl implements SongService {
 	@Autowired
 	SongDao songDao;
 	@Autowired
@@ -22,6 +28,9 @@ public class SongServiceImpl implements SongService{
 	ArtistService artistService;
 	@Autowired
 	GenreService genreService;
+	@Autowired
+	PlayListService playListService;
+
 	@Override
 	public List<Song> findAll() {
 		return songDao.findAll();
@@ -29,47 +38,90 @@ public class SongServiceImpl implements SongService{
 
 	@Override
 	public Song findById(Long id) {
-		if (songDao.findById(id).isPresent()) return songDao.findById(id).get();
-		else return null;
+		if (songDao.findById(id).isPresent())
+			return songDao.findById(id).get();
+		else
+			return null;
 	}
 
 	@Override
 	public int deleteAll() {
 		songDao.deleteAll();
-		if (findAll() == null) return 1;
-		else return -1;
+		if (findAll() == null)
+			return 1;
+		else
+			return -1;
 	}
 
 	@Override
 	public int deleteById(Long id) {
 		songDao.deleteById(id);
-		if (findById(id) == null) return 1;
-		else return -1;
-	}
-
-	@Override
-	public int update(Long id, Song song) {
-		if ( findById(id) != null &&
-			 artistService.findById(song.getArtist().getId()) != null &&
-			 albumService.findById(song.getAlbum().getId()) != null &&
-			 genreService.findById(song.getGenre().getId()) != null
-			 ) {
-			songDao.save(song);
+		if (findById(id) == null)
 			return 1;
-		} else return -1;
-
+		else
+			return -1;
 	}
 
 	@Override
+	@Transactional
+	public int update(Long id, Song song) {
+		if (findByLibelle(song.getLibelle()) == null)
+			throw new TransactionFailedException();
+		if (artistService.findbyName(song.getArtist().getName()) == null || song.getArtist() == null
+				|| genreService.findById(song.getGenre().getId()) == null || song.getGenre() == null
+				|| albumService.findByLibelle(song.getAlbum().getLibelle()) == null || song.getAlbum() == null)
+			throw new TransactionFailedException();
+		if (song.getLibelle() == null || song.getLibelle() == "" || song.getReleaseDate() == null)
+			throw new TransactionFailedException();
+		if (song.getFeaturingPlayLists().size() > 0) {
+			for (PlayList playList : song.getFeaturingPlayLists()) {
+				int validate = 0;
+				for (Song song1 : playList.getPlayListSongs()) {
+					if (song1.getLibelle() == song.getLibelle()) {
+						validate = 1;
+						break;
+					}
+				}
+				if (validate != 1)
+					playList.getPlayListSongs().add(song);
+				if (playListService.findByLibelle(playList.getLibelle()) != null)
+					playListService.update(playList.getId(), playList);
+				playListService.save(playList);
+			}
+		}
+		songDao.save(song);
+		return 1;
+	}
+
+	@Override
+	@Transactional
 	public int save(Song song) {
-		if ( findById(song.getId()) == null &&
-				 artistService.findById(song.getArtist().getId()) != null &&
-				 albumService.findById(song.getAlbum().getId()) != null &&
-				 genreService.findById(song.getGenre().getId()) != null
-				 ) {
-				songDao.save(song);
-				return 1;
-			} else return -1;
+		if (findByLibelle(song.getLibelle()) != null)
+			return -1;
+		if (artistService.findbyName(song.getArtist().getName()) == null || song.getArtist() == null
+				|| genreService.findById(song.getGenre().getId()) == null || song.getGenre() == null
+				|| albumService.findByLibelle(song.getAlbum().getLibelle()) == null || song.getAlbum() == null)
+			return -2;
+		if (song.getLibelle() == null || song.getLibelle() == "" || song.getReleaseDate() == null)
+			return -3;
+		if (song.getFeaturingPlayLists().size() > 0) {
+			for (PlayList playList : song.getFeaturingPlayLists()) {
+				int validate = 0;
+				for (Song song1 : playList.getPlayListSongs()) {
+					if (song1.getLibelle() == song.getLibelle()) {
+						validate = 1;
+						break;
+					}
+				}
+				if (validate != 1)
+					playList.getPlayListSongs().add(song);
+				if (playListService.findByLibelle(playList.getLibelle()) != null)
+					playListService.update(playList.getId(), playList);
+				playListService.save(playList);
+			}
+		}
+		songDao.save(song);
+		return 1;
 	}
 
 	@Override
@@ -92,11 +144,14 @@ public class SongServiceImpl implements SongService{
 		return songDao.findByArtistId(id);
 	}
 
-
-
 	@Override
 	public List<Song> findByGenreId(Long id) {
 		return songDao.findByGenreId(id);
+	}
+
+	@Override
+	public List<Song> searchByLibelle(String libelle) {
+		return songDao.searchByLibelle(libelle);
 	}
 
 }
