@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.bean.PlayList;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.PlayListDao;
+import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.PlayListService;
 import com.example.demo.service.facade.SongService;
 
@@ -55,9 +56,10 @@ public class PlayListServiceImpl implements PlayListService {
 	@Transactional
 	public int update(Long id, PlayList playList) {
 		if (findByLibelle(playList.getLibelle()) == null)
-			return -1;
+			throw new TransactionFailedException("PlayList doesn't exists in database");
 		if (playList.getLibelle() == null || playList.getLibelle() == "")
-			return -2;
+			throw new TransactionFailedException("Libelle should not be empty or null");
+		playListDao.save(playList);
 		if (playList.getPlayListSongs().size() > 0) {
 			for (Song song : playList.getPlayListSongs()) {
 				int validate = 0;
@@ -74,7 +76,6 @@ public class PlayListServiceImpl implements PlayListService {
 				songService.save(song);
 			}
 		}
-		playListDao.save(playList);
 		return 1;
 	}
 
@@ -82,9 +83,10 @@ public class PlayListServiceImpl implements PlayListService {
 	@Transactional
 	public int save(PlayList playList) {
 		if (findByLibelle(playList.getLibelle()) != null)
-			return -1;
+			throw new TransactionFailedException("PlayList Already exists in database");
 		if (playList.getLibelle() == null || playList.getLibelle() == "")
-			return -2;
+			throw new TransactionFailedException("Libelle should not be empty or null");
+		playListDao.save(playList);
 		if (playList.getPlayListSongs().size() > 0) {
 			for (Song song : playList.getPlayListSongs()) {
 				int validate = 0;
@@ -99,7 +101,6 @@ public class PlayListServiceImpl implements PlayListService {
 				songService.save(song);
 			}
 		}
-		playListDao.save(playList);
 		return 1;
 	}
 

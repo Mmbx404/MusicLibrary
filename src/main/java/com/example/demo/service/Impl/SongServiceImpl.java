@@ -66,13 +66,14 @@ public class SongServiceImpl implements SongService {
 	@Transactional
 	public int update(Long id, Song song) {
 		if (findByLibelle(song.getLibelle()) == null)
-			throw new TransactionFailedException();
+			throw new TransactionFailedException("Song doesn't exist in database");
 		if (artistService.findbyName(song.getArtist().getName()) == null || song.getArtist() == null
 				|| genreService.findById(song.getGenre().getId()) == null || song.getGenre() == null
 				|| albumService.findByLibelle(song.getAlbum().getLibelle()) == null || song.getAlbum() == null)
-			throw new TransactionFailedException();
+			throw new TransactionFailedException("Jme3 Krek ila l9iti had l msg");
 		if (song.getLibelle() == null || song.getLibelle() == "" || song.getReleaseDate() == null)
-			throw new TransactionFailedException();
+			throw new TransactionFailedException("Libelle and Release date should not be empty or null");
+		songDao.save(song);
 		if (song.getFeaturingPlayLists().size() > 0) {
 			for (PlayList playList : song.getFeaturingPlayLists()) {
 				int validate = 0;
@@ -89,7 +90,6 @@ public class SongServiceImpl implements SongService {
 				playListService.save(playList);
 			}
 		}
-		songDao.save(song);
 		return 1;
 	}
 
@@ -97,13 +97,14 @@ public class SongServiceImpl implements SongService {
 	@Transactional
 	public int save(Song song) {
 		if (findByLibelle(song.getLibelle()) != null)
-			return -1;
+			throw new TransactionFailedException("Given song already exists in database");
 		if (artistService.findbyName(song.getArtist().getName()) == null || song.getArtist() == null
 				|| genreService.findById(song.getGenre().getId()) == null || song.getGenre() == null
 				|| albumService.findByLibelle(song.getAlbum().getLibelle()) == null || song.getAlbum() == null)
-			return -2;
+			throw new TransactionFailedException("Jme3 krek ila l9iti had l msg");
+		songDao.save(song);
 		if (song.getLibelle() == null || song.getLibelle() == "" || song.getReleaseDate() == null)
-			return -3;
+			throw new TransactionFailedException("Libelle and Release date should not be empty or null");
 		if (song.getFeaturingPlayLists().size() > 0) {
 			for (PlayList playList : song.getFeaturingPlayLists()) {
 				int validate = 0;
@@ -120,7 +121,6 @@ public class SongServiceImpl implements SongService {
 				playListService.save(playList);
 			}
 		}
-		songDao.save(song);
 		return 1;
 	}
 

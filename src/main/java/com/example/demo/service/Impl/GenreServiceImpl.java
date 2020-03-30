@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.bean.Genre;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.GenreDao;
+import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.GenreService;
 import com.example.demo.service.facade.SongService;
 
@@ -54,10 +55,11 @@ public class GenreServiceImpl implements GenreService {
 	@Override
 	@Transactional
 	public int update(Long id, Genre genre) {
-		if (findById(genre.getId()) == null)
-			return -1;
+		if (findById(id) == null)
+			throw new TransactionFailedException("Given genre doesn't exists in database");
 		if (genre.getLibelle() == null || genre.getLibelle() == "")
-			return -2;
+			throw new TransactionFailedException("Libelle should not be empty or null");
+		genreDao.save(genre);
 		if (genre.getSongs().size() > 0) {
 			for (Song song : genre.getSongs()) {
 				if (song.getGenre() != genre)
@@ -67,7 +69,6 @@ public class GenreServiceImpl implements GenreService {
 				songService.save(song);
 			}
 		}
-		genreDao.save(genre);
 		return 1;
 	}
 
@@ -75,9 +76,10 @@ public class GenreServiceImpl implements GenreService {
 	@Transactional
 	public int save(Genre genre) {
 		if (findById(genre.getId()) != null)
-			return -1;
+			throw new TransactionFailedException("Given genre already exists in database");
 		if (genre.getLibelle() == null || genre.getLibelle() == "")
-			return -2;
+			throw new TransactionFailedException("Libelle should not be empty or null");
+		genreDao.save(genre);
 		if (genre.getSongs().size() > 0) {
 			for (Song song : genre.getSongs()) {
 				if (song.getGenre() != genre)
@@ -87,7 +89,6 @@ public class GenreServiceImpl implements GenreService {
 				songService.save(song);
 			}
 		}
-		genreDao.save(genre);
 		return 1;
 	}
 

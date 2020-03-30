@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -24,10 +26,12 @@ public class Artist {
 	Long id;
 	String name;
 	@OneToMany(mappedBy = "artist")
-	@JsonBackReference
+	@JsonProperty(access=Access.WRITE_ONLY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	List<Album> albums = new ArrayList<Album>();
 	@OneToMany(mappedBy = "artist")
-	@JsonBackReference
+	@JsonProperty(access=Access.WRITE_ONLY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	List<Song> songs = new ArrayList<Song>();
 	@Lob
 	@Basic(fetch=FetchType.LAZY)

@@ -11,6 +11,7 @@ import com.example.demo.bean.Album;
 import com.example.demo.bean.Artist;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.ArtistDao;
+import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.AlbumSerivce;
 import com.example.demo.service.facade.ArtistService;
 import com.example.demo.service.facade.SongService;
@@ -59,9 +60,10 @@ public class ArtistServiceImpl implements ArtistService {
 	@Transactional
 	public int update(Long id, Artist artist) {
 		if (findById(id) == null)
-			return -1;
+			throw new TransactionFailedException("Artist given already exists in the database");
 		if (artist.getName() == null || artist.getName() == "")
-			return -2;
+			throw new TransactionFailedException("Name must not be empty or null");
+		artistDao.save(artist);
 		if (artist.getAlbums().size() > 0) {
 			for (Album album : artist.getAlbums()) {
 				if (album.getArtist() != artist)
@@ -82,7 +84,6 @@ public class ArtistServiceImpl implements ArtistService {
 					songService.save(song);
 			}
 		}
-		artistDao.save(artist);
 		return 1;
 	}
 
@@ -90,9 +91,10 @@ public class ArtistServiceImpl implements ArtistService {
 	@Transactional
 	public int save(Artist artist) {
 		if (artist.getName() == null || artist.getName() == "")
-			return -2;
+			throw new TransactionFailedException("Name must not be empty or null");
 		if (findById(artist.getId()) != null)
-			return -1;
+			throw new TransactionFailedException("Artist given already exists in the database");
+		artistDao.save(artist);
 		if (artist.getAlbums().size() > 0) {
 			for (Album album : artist.getAlbums()) {
 				if (album.getArtist() != artist)
@@ -107,7 +109,6 @@ public class ArtistServiceImpl implements ArtistService {
 				songService.save(song);
 			}
 		}
-		artistDao.save(artist);
 		return 1;
 	}
 

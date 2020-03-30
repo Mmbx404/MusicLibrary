@@ -16,9 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Song {
@@ -29,20 +28,17 @@ public class Song {
 	@Temporal(TemporalType.DATE)
 	Date releaseDate;
 	@ManyToOne
-	@JsonManagedReference
 	Album album;
 	@ManyToOne
-	@JsonManagedReference
 	Artist artist;
 	@ManyToMany(mappedBy = "playListSongs")
-	@JsonBackReference
+	@JsonProperty(access=Access.WRITE_ONLY)
 	List<PlayList> featuringPlayLists = new ArrayList<PlayList>();
 	@ManyToOne
-	@JsonManagedReference
 	Genre genre;
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "SONG_MP3", columnDefinition = "BLOB NOT NULL")
+	@Column(name = "SONG_MP3", columnDefinition = "BLOB")
 	Byte[] songFile;
     String[] lyrics;
 	public Long getId() {

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.bean.Album;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.AlbumDao;
+import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.AlbumSerivce;
 import com.example.demo.service.facade.ArtistService;
 import com.example.demo.service.facade.SongService;
@@ -58,10 +59,11 @@ public class AlbumServiceImpl implements AlbumSerivce {
 	@Transactional
 	public int update(Long id, Album album) {
 		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
-			return -2;
+			throw new TransactionFailedException("Artist,Libelle and Release date must not be null or empty");
 		if (findById(id) == null || artistService.findById(album.getArtist().getId()) == null
-				|| findByLibelle(album.getLibelle()) != null)
-			return -1;
+				|| findByLibelle(album.getLibelle()) == null)
+			throw new TransactionFailedException("Album doesn't exist in the database Or given artist doesn't exist");
+		albumDao.save(album);
 		if (album.getSongs().size() > 0) {
 
 			for (Song song : album.getSongs()) {
@@ -71,7 +73,6 @@ public class AlbumServiceImpl implements AlbumSerivce {
 					songService.save(song);
 			}
 		}
-		albumDao.save(album);
 		return 1;
 
 	}
@@ -80,15 +81,15 @@ public class AlbumServiceImpl implements AlbumSerivce {
 	@Transactional
 	public int save(Album album) {
 		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
-			return -2;
+			throw new TransactionFailedException("Artist , Libelle and Release date must not be null or empty");
 		if (findByLibelle(album.getLibelle()) != null || artistService.findById(album.getArtist().getId()) == null)
-			return -1;
+			throw new TransactionFailedException("Album already exists in database Or given artist doesn't exist");
+		albumDao.save(album);
 		if (album.getSongs().size() > 0) {
 			for (Song song : album.getSongs()) {
 				songService.save(song);
 			}
 		}
-		albumDao.save(album);
 		return 1;
 	}
 

@@ -10,9 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class PlayList {
@@ -22,7 +21,7 @@ public class PlayList {
 	String libelle;
 	@ManyToMany
 	@JoinTable(name = "PlayList_Song", joinColumns = @JoinColumn(name = "PlayList_id"), inverseJoinColumns = @JoinColumn(name = "Song_id"))
-	@JsonManagedReference
+	@JsonProperty(access=Access.WRITE_ONLY)
 	List<Song> playListSongs = new ArrayList<Song>();
 
 	public Long getId() {

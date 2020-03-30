@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @Entity
 public class Genre {
 	@Id
@@ -17,7 +17,7 @@ public class Genre {
 	Long id;
 	String libelle;
 	@OneToMany(mappedBy = "genre")
-	@JsonBackReference
+	@JsonProperty(access=Access.WRITE_ONLY)
 	List<Song> songs = new ArrayList<Song>();
 	public Long getId() {
 		return id;

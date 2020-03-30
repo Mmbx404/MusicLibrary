@@ -16,9 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Album {
@@ -29,10 +28,9 @@ public class Album {
 	@Temporal(TemporalType.DATE)
 	Date releaseDate;
 	@OneToMany(mappedBy = "album")
-	@JsonBackReference
+	@JsonProperty(access=Access.WRITE_ONLY)
 	List<Song> songs = new ArrayList<Song>();
 	@ManyToOne
-	@JsonManagedReference
 	Artist artist;
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
