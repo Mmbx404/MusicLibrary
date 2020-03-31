@@ -48,9 +48,9 @@ public class SongRest {
 		return songService.save(song);
 	}
 	
-	@PostMapping("/save")
-	public int save(@RequestBody Song song,@RequestParam("file") MultipartFile file) {
-		return songService.save(song,file);
+	@PostMapping("/savesongfile/{libelle}")
+	public int save(@PathVariable String libelle,@RequestParam("file") MultipartFile file) {
+		return songService.save(libelle,file);
 	}
 	
 	@GetMapping("/findByLibelle/Libelle/{libelle}")

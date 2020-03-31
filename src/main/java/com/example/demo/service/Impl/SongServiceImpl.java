@@ -129,15 +129,17 @@ public class SongServiceImpl implements SongService {
 	}
 	@Override
 	@Transactional
-	public int save(Song song,MultipartFile file) {
+	public int save(String libelle,MultipartFile file) {
 		if (file != null || FileStorageUtil.fileIsAudio(file)) {
-		
+		  
 			try {
+				Song song= findByLibelle(libelle);
 				song.setSongFile(file.getBytes());
+				save(song);
 			} catch (IOException e) {
               throw new FileStorageException("Error with file upload");
 			}
-	
+	       
 		}
 		throw new FileStorageException("Error with file type/null");
 	}
