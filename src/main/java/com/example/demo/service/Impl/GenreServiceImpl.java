@@ -54,8 +54,8 @@ public class GenreServiceImpl implements GenreService {
 
 	@Override
 	@Transactional
-	public int update(Long id, Genre genre) {
-		if (findById(id) == null)
+	public int update(String libelle, Genre genre) {
+		if (findByLibelle(libelle) == null)
 			throw new TransactionFailedException("Given genre doesn't exists in database");
 		if (genre.getLibelle() == null || genre.getLibelle() == "")
 			throw new TransactionFailedException("Libelle should not be empty or null");
@@ -65,7 +65,7 @@ public class GenreServiceImpl implements GenreService {
 				if (song.getGenre() != genre)
 					song.setGenre(genre);
 				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getId(), song);
+					songService.update(song.getLibelle(), song);
 				songService.save(song);
 			}
 		}
@@ -85,11 +85,16 @@ public class GenreServiceImpl implements GenreService {
 				if (song.getGenre() != genre)
 					song.setGenre(genre);
 				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getId(), song);
+					songService.update(song.getLibelle(), song);
 				songService.save(song);
 			}
 		}
 		return 1;
+	}
+
+	@Override
+	public Genre findByLibelle(String libelle) {
+		return genreDao.findByLibelle(libelle);
 	}
 
 }

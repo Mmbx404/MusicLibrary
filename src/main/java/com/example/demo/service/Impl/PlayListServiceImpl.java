@@ -54,7 +54,7 @@ public class PlayListServiceImpl implements PlayListService {
 
 	@Override
 	@Transactional
-	public int update(Long id, PlayList playList) {
+	public int update(String libelle, PlayList playList) {
 		if (findByLibelle(playList.getLibelle()) == null)
 			throw new TransactionFailedException("PlayList doesn't exists in database");
 		if (playList.getLibelle() == null || playList.getLibelle() == "")
@@ -72,7 +72,7 @@ public class PlayListServiceImpl implements PlayListService {
 				if (validate != 1)
 					song.getFeaturingPlayLists().add(playList);
 				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getId(), song);
+					songService.update(song.getLibelle(), song);
 				songService.save(song);
 			}
 		}
@@ -97,7 +97,7 @@ public class PlayListServiceImpl implements PlayListService {
 				if (validate != 1)
 					song.getFeaturingPlayLists().add(playList);
 				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getId(), song);
+					songService.update(song.getLibelle(), song);
 				songService.save(song);
 			}
 		}

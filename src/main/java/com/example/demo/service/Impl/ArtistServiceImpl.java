@@ -58,8 +58,8 @@ public class ArtistServiceImpl implements ArtistService {
 
 	@Override
 	@Transactional
-	public int update(Long id, Artist artist) {
-		if (findById(id) == null)
+	public int update(String name, Artist artist) {
+		if (findbyName(name) == null)
 			throw new TransactionFailedException("Artist given already exists in the database");
 		if (artist.getName() == null || artist.getName() == "")
 			throw new TransactionFailedException("Name must not be empty or null");
@@ -69,7 +69,7 @@ public class ArtistServiceImpl implements ArtistService {
 				if (album.getArtist() != artist)
 					album.setArtist(artist);
 				if (albumService.findByLibelle(album.getLibelle()) != null)
-					albumService.update(album.getId(), album);
+					albumService.update(album.getLibelle(), album);
 				else
 					albumService.save(album);
 			}
@@ -79,7 +79,7 @@ public class ArtistServiceImpl implements ArtistService {
 				if (song.getArtist() != artist)
 					song.setArtist(artist);
 				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getId(), song);
+					songService.update(song.getLibelle(), song);
 				else
 					songService.save(song);
 			}

@@ -9,6 +9,7 @@ public interface GenreService {
 	public Genre findById(Long id);
 	public int deleteAll();
 	public int deleteById(Long id);
-	public int update(Long id,Genre genre);
+	public int update(String libelle,Genre genre);
 	public int save(Genre genre);
+	public Genre findByLibelle(String libelle);
 }

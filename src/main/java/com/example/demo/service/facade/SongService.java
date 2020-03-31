@@ -10,7 +10,7 @@ public interface SongService {
 	public Song findById(Long id);
 	public int deleteAll();
 	public int deleteById(Long id);
-	public int update(Long id,Song song);
+	public int update(String libelle,Song song);
 	public int save(Song song);
 	public Song findByLibelle(String libelle);
 	public List<Song> findByReleaseDate(Date releaseDate);

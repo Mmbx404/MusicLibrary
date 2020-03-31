@@ -57,10 +57,10 @@ public class AlbumServiceImpl implements AlbumSerivce {
 
 	@Override
 	@Transactional
-	public int update(Long id, Album album) {
+	public int update(String libelle, Album album) {
 		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
 			throw new TransactionFailedException("Artist,Libelle and Release date must not be null or empty");
-		if (findById(id) == null || artistService.findById(album.getArtist().getId()) == null
+		if (findByLibelle(libelle) == null || artistService.findById(album.getArtist().getId()) == null
 				|| findByLibelle(album.getLibelle()) == null)
 			throw new TransactionFailedException("Album doesn't exist in the database Or given artist doesn't exist");
 		albumDao.save(album);
@@ -68,7 +68,7 @@ public class AlbumServiceImpl implements AlbumSerivce {
 
 			for (Song song : album.getSongs()) {
 				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getId(), song);
+					songService.update(song.getLibelle(), song);
 				else
 					songService.save(song);
 			}
