@@ -36,6 +36,7 @@ public class Artist {
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
 	@Column(name="ARTST_PIC")
+	@JsonProperty(access=Access.WRITE_ONLY)
 	Byte[] Portrait;
 	public Long getId() {
 		return id;

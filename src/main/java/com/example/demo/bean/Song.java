@@ -39,6 +39,7 @@ public class Song {
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "SONG_MP3", columnDefinition = "BLOB")
+	@JsonProperty(access=Access.WRITE_ONLY)
 	Byte[] songFile;
     String[] lyrics;
 	public Long getId() {

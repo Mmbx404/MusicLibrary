@@ -35,6 +35,7 @@ public class Album {
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
 	@Column(name="ALB_PIC")
+	@JsonProperty(access=Access.WRITE_ONLY)
 	Byte[] picture;
 	public Long getId() {
 		return id;
