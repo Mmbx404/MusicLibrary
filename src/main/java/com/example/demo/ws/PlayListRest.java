@@ -36,9 +36,9 @@ public class PlayListRest {
 	public int deleteById(@PathVariable("id") Long id) {
 		return playListService.deleteById(id);
 	}
-	@PutMapping("/update/Id/{id}")
-	public int update(@PathVariable("id") Long id,@RequestBody PlayList playList) {
-		return playListService.update(id, playList);
+	@PutMapping("/update/libelle/{libelle}")
+	public int update(@PathVariable("libelle") String libelle,@RequestBody PlayList playList) {
+		return playListService.update(libelle, playList);
 	}
 	@PostMapping("/save")
 	public int save(@RequestBody PlayList playList) {

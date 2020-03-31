@@ -36,9 +36,9 @@ public class GenreRest {
 	public int deleteById(@PathVariable("id") Long id) {
 		return genreService.deleteById(id);
 	}
-	@PutMapping("/update/Id/{id}")
-	public int update(@PathVariable("id") Long id,@RequestBody Genre genre) {
-		return genreService.update(id, genre);
+	@PutMapping("/update/libelle/{libelle}")
+	public int update(@PathVariable("libelle") String libelle,@RequestBody Genre genre) {
+		return genreService.update(libelle, genre);
 	}
 	@PostMapping("/save")
 	public int save(@RequestBody Genre genre) {

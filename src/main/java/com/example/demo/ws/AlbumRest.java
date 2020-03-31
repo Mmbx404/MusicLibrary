@@ -37,9 +37,9 @@ public class AlbumRest {
 	public int deleteById(@PathVariable("id") Long id) {
 		return albumService.deleteById(id);
 	}
-	@PutMapping("/update/id/{id}")
-	public int update(@PathVariable("id") Long id,@RequestBody Album album) {
-		return albumService.update(id, album);
+	@PutMapping("/update/libelle/{libelle}")
+	public int update(@PathVariable("libelle") String libelle,@RequestBody Album album) {
+		return albumService.update(libelle, album);
 	}
 	@PostMapping("/save")
 	public int save(@RequestBody Album album) {

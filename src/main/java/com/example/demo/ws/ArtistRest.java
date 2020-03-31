@@ -36,9 +36,9 @@ public class ArtistRest {
 	public int deleteById(@PathVariable("id") Long id) {
 		return artistService.deleteById(id);
 	}
-	@PutMapping("/update/Id/{id}")
-	public int update(@PathVariable("id") Long id,@RequestBody Artist artist) {
-		return artistService.update(id, artist);
+	@PutMapping("/update/name/{name}")
+	public int update(@PathVariable("name") String name,@RequestBody Artist artist) {
+		return artistService.update(name, artist);
 	}
 	@PostMapping("/save")
 	public int save(@RequestBody Artist artist) {
