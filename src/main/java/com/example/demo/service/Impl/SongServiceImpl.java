@@ -1,5 +1,6 @@
 package com.example.demo.service.Impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -7,16 +8,19 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.bean.PlayList;
 import com.example.demo.bean.Song;
 import com.example.demo.dao.SongDao;
+import com.example.demo.exception.FileStorageException;
 import com.example.demo.exception.TransactionFailedException;
 import com.example.demo.service.facade.AlbumSerivce;
 import com.example.demo.service.facade.ArtistService;
 import com.example.demo.service.facade.GenreService;
 import com.example.demo.service.facade.PlayListService;
 import com.example.demo.service.facade.SongService;
+import com.example.demo.utils.FileStorageUtil;
 
 @Service
 public class SongServiceImpl implements SongService {
@@ -122,6 +126,20 @@ public class SongServiceImpl implements SongService {
 			}
 		}
 		return 1;
+	}
+	@Override
+	@Transactional
+	public int save(Song song,MultipartFile file) {
+		if (file != null || FileStorageUtil.fileIsAudio(file)) {
+		
+			try {
+				song.setSongFile(file.getBytes());
+			} catch (IOException e) {
+              throw new FileStorageException("Error with file upload");
+			}
+	
+		}
+		throw new FileStorageException("Error with file type/null");
 	}
 
 	@Override

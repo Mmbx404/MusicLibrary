@@ -40,7 +40,7 @@ public class Song {
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "SONG_MP3", columnDefinition = "BLOB")
 	@JsonProperty(access=Access.WRITE_ONLY)
-	Byte[] songFile;
+	byte[] songFile;
     String[] lyrics;
 	public Long getId() {
 		return id;
@@ -84,10 +84,10 @@ public class Song {
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
-	public Byte[] getSongFile() {
+	public byte[] getSongFile() {
 		return songFile;
 	}
-	public void setSongFile(Byte[] songFile) {
+	public void setSongFile(byte[] songFile) {
 		this.songFile = songFile;
 	}
 	public String[] getLyrics() {
@@ -97,7 +97,7 @@ public class Song {
 		this.lyrics = lyrics;
 	}
 	public Song(Long id, String libelle, Date releaseDate, Album album, Artist artist,
-			List<PlayList> featuringPlayLists, Genre genre, Byte[] songFile, String[] lyrics) {
+			List<PlayList> featuringPlayLists, Genre genre, byte[] songFile, String[] lyrics) {
 		super();
 		this.id = id;
 		this.libelle = libelle;

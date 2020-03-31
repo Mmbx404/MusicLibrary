@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.bean.Song;
 import com.example.demo.service.facade.SongService;
@@ -45,6 +47,12 @@ public class SongRest {
 	public int save(@RequestBody Song song) {
 		return songService.save(song);
 	}
+	
+	@PostMapping("/save")
+	public int save(@RequestBody Song song,@RequestParam("file") MultipartFile file) {
+		return songService.save(song,file);
+	}
+	
 	@GetMapping("/findByLibelle/Libelle/{libelle}")
 	public Song findByLibelle(@PathVariable("") String libelle) {
 		return songService.findByLibelle(libelle);

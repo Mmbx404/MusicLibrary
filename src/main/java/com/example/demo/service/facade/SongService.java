@@ -3,6 +3,8 @@ package com.example.demo.service.facade;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.bean.Song;
 
 public interface SongService {
@@ -19,4 +21,5 @@ public interface SongService {
 
 	public List<Song> findByGenreId(Long id);
 	List<Song> searchByLibelle(String libelle);
+	int save(Song song, MultipartFile file);
 }
