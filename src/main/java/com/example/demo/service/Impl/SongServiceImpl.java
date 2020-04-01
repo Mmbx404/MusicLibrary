@@ -127,7 +127,7 @@ public class SongServiceImpl implements SongService {
 		}
 		return 1;
 	}
-	@Override
+/*	@Override
 	@Transactional
 	public int save(String libelle,MultipartFile file) {
 		if (file != null || FileStorageUtil.fileIsAudio(file)) {
@@ -135,14 +135,15 @@ public class SongServiceImpl implements SongService {
 			try {
 				Song song= findByLibelle(libelle);
 				song.setSongFile(file.getBytes());
-				save(song);
+				songDao.save(song);
+				return 1;
 			} catch (IOException e) {
               throw new FileStorageException("Error with file upload");
 			}
 	       
 		}
 		throw new FileStorageException("Error with file type/null");
-	}
+	} */
 
 	@Override
 	public Song findByLibelle(String libelle) {

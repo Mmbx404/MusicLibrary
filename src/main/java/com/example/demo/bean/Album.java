@@ -3,15 +3,10 @@ package com.example.demo.bean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -32,11 +27,7 @@ public class Album {
 	List<Song> songs = new ArrayList<Song>();
 	@ManyToOne
 	Artist artist;
-	@Lob
-	@Basic(fetch=FetchType.LAZY)
-	@Column(name="ALB_PIC")
-	@JsonProperty(access=Access.WRITE_ONLY)
-	Byte[] picture;
+	String picture;
 	public Long getId() {
 		return id;
 	}
@@ -67,13 +58,22 @@ public class Album {
 	public void setArtist(Artist artist) {
 		this.artist = artist;
 	}
-	public Album(Long id, String libelle, Date releaseDate, List<Song> songs, Artist artist) {
+	
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
+	public Album(Long id, String libelle, Date releaseDate, List<Song> songs, Artist artist, String picture) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
 		this.releaseDate = releaseDate;
 		this.songs = songs;
 		this.artist = artist;
+		this.picture = picture;
 	}
 	public Album() {
 		super();

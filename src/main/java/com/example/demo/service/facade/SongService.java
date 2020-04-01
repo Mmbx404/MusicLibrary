@@ -21,5 +21,5 @@ public interface SongService {
 
 	public List<Song> findByGenreId(Long id);
 	List<Song> searchByLibelle(String libelle);
-	int save(String libelle, MultipartFile file);
+//	int save(String libelle, MultipartFile file);
 }

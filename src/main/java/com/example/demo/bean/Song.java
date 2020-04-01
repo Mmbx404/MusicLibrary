@@ -3,15 +3,10 @@ package com.example.demo.bean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -36,11 +31,7 @@ public class Song {
 	List<PlayList> featuringPlayLists = new ArrayList<PlayList>();
 	@ManyToOne
 	Genre genre;
-	@Lob
-	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "SONG_MP3", columnDefinition = "BLOB")
-	@JsonProperty(access=Access.WRITE_ONLY)
-	byte[] songFile;
+	String songImage;
     String[] lyrics;
 	public Long getId() {
 		return id;
@@ -84,11 +75,11 @@ public class Song {
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
-	public byte[] getSongFile() {
-		return songFile;
+	public String getSongImage() {
+		return songImage;
 	}
-	public void setSongFile(byte[] songFile) {
-		this.songFile = songFile;
+	public void setSongImage(String songImage) {
+		this.songImage = songImage;
 	}
 	public String[] getLyrics() {
 		return lyrics;
@@ -97,7 +88,7 @@ public class Song {
 		this.lyrics = lyrics;
 	}
 	public Song(Long id, String libelle, Date releaseDate, Album album, Artist artist,
-			List<PlayList> featuringPlayLists, Genre genre, byte[] songFile, String[] lyrics) {
+			List<PlayList> featuringPlayLists, Genre genre, String songImage, String[] lyrics) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
@@ -106,7 +97,7 @@ public class Song {
 		this.artist = artist;
 		this.featuringPlayLists = featuringPlayLists;
 		this.genre = genre;
-		this.songFile = songFile;
+		this.songImage = songImage;
 		this.lyrics = lyrics;
 	}
 	public Song() {

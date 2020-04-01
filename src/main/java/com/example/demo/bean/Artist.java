@@ -2,20 +2,13 @@ package com.example.demo.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
-
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -33,11 +26,7 @@ public class Artist {
 	@JsonProperty(access=Access.WRITE_ONLY)
 	@NotFound(action = NotFoundAction.IGNORE)
 	List<Song> songs = new ArrayList<Song>();
-	@Lob
-	@Basic(fetch=FetchType.LAZY)
-	@Column(name="ARTST_PIC")
-	@JsonProperty(access=Access.WRITE_ONLY)
-	Byte[] Portrait;
+	String portrait;
 	public Long getId() {
 		return id;
 	}
@@ -62,19 +51,21 @@ public class Artist {
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
 	}
-	public Byte[] getPortrait() {
-		return Portrait;
+	
+	public String getPortrait() {
+		return portrait;
 	}
-	public void setPortrait(Byte[] portrait) {
-		Portrait = portrait;
+	public void setPortrait(String portrait) {
+		this.portrait = portrait;
 	}
-	public Artist(Long id, String name, List<Album> albums, List<Song> songs, Byte[] portrait) {
+	
+	public Artist(Long id, String name, List<Album> albums, List<Song> songs, String portrait) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.albums = albums;
 		this.songs = songs;
-		Portrait = portrait;
+		this.portrait = portrait;
 	}
 	public Artist() {
 		super();

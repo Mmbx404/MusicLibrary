@@ -48,10 +48,10 @@ public class SongRest {
 		return songService.save(song);
 	}
 	
-	@PostMapping("/savesongfile/{libelle}")
+/*	@PutMapping("/savesongfile/{libelle}")
 	public int save(@PathVariable String libelle,@RequestParam("file") MultipartFile file) {
 		return songService.save(libelle,file);
-	}
+	} */
 	
 	@GetMapping("/findByLibelle/Libelle/{libelle}")
 	public Song findByLibelle(@PathVariable("") String libelle) {
