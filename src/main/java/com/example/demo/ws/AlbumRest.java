@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.Album;
+import com.example.demo.bean.Song;
 import com.example.demo.service.facade.AlbumSerivce;
 
 @RestController
@@ -37,8 +38,8 @@ public class AlbumRest {
 	public int deleteById(@PathVariable("id") Long id) {
 		return albumService.deleteById(id);
 	}
-	@PutMapping("/update/libelle/{libelle}")
-	public int update(@PathVariable("libelle") String libelle,@RequestBody Album album) {
+	@PutMapping("/update/Libelle/{Libelle}")
+	public int update(@PathVariable("Libelle") String libelle,@RequestBody Album album) {
 		return albumService.update(libelle, album);
 	}
 	@PostMapping("/save")
@@ -57,5 +58,17 @@ public class AlbumRest {
 	public List<Album> findByArtistId(@PathVariable("id") Long id) {
 		return albumService.findByArtistId(id);
 	}
-	
+	@GetMapping("/searchByLibelle/Libelle/{Libelle}")
+	public List<Album> searchByLibelle(@PathVariable("Libelle")String libelle) {
+
+		return albumService.searchByLibelle(libelle);
+	}
+	@GetMapping("/findByLibelle/Libelle/{libelle}/ListSongs")
+	public List<Song> ListSongsByLibelle(@PathVariable("libelle") String libelle) {
+		return albumService.findByLibelle(libelle).getSongs();
+	}
+	@GetMapping("/findById/Id/{Id}/ListSongs")
+	public List<Song> ListSongsById(@PathVariable("Id") Long id) {
+		return albumService.findById(id).getSongs();
+	}
 }

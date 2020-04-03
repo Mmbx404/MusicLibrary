@@ -59,7 +59,7 @@ public class Artist {
 		this.portrait = portrait;
 	}
 	
-	public Artist(Long id, String name, List<Album> albums, List<Song> songs, String portrait) {
+	public Artist( String name, List<Album> albums, List<Song> songs, String portrait) {
 		super();
 		this.id = id;
 		this.name = name;

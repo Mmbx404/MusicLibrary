@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.bean.Album;
 import com.example.demo.bean.Artist;
+import com.example.demo.bean.Song;
 import com.example.demo.service.facade.ArtistService;
 
 @RestController
@@ -47,6 +49,26 @@ public class ArtistRest {
 	@GetMapping("/findByName/Name/{name}")
 	public Artist findbyName(@PathVariable("name") String name) {
 		return artistService.findbyName(name);
+	}
+	@GetMapping("/searchByName/Name/{name}")
+	public List<Artist> searchByName(String name) {
+		return artistService.searchByName(name);
+	}
+	@GetMapping("/findByName/Name/{name}/ListSongs")
+	public List<Song> ListSongsByName(@PathVariable("name") String name){
+		return artistService.findbyName(name).getSongs();
+	}
+	@GetMapping("/findByName/Name/{name}/ListAlbums")
+	public List<Album> ListAlbumsByName(@PathVariable("name") String name){
+		return artistService.findbyName(name).getAlbums();
+	}
+	@GetMapping("/findById/Id/{id}/ListSongs")
+	public List<Song> ListSongsById(@PathVariable("id") Long id) {
+		return artistService.findById(id).getSongs();
+	}
+	@GetMapping("/findById/Id/{id}/ListAlbum")
+	public List<Album> ListAlbumsById(@PathVariable("id") Long id){
+		return artistService.findById(id).getAlbums();
 	}
 	
 }

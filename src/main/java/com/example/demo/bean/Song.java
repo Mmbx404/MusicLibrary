@@ -31,7 +31,7 @@ public class Song {
 	List<PlayList> featuringPlayLists = new ArrayList<PlayList>();
 	@ManyToOne
 	Genre genre;
-	String songImage;
+	String songPath;
     String[] lyrics;
 	public Long getId() {
 		return id;
@@ -75,11 +75,11 @@ public class Song {
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
-	public String getSongImage() {
-		return songImage;
+	public String getSongPath() {
+		return songPath;
 	}
-	public void setSongImage(String songImage) {
-		this.songImage = songImage;
+	public void setSongPath(String songPath) {
+		this.songPath = songPath;
 	}
 	public String[] getLyrics() {
 		return lyrics;
@@ -87,17 +87,17 @@ public class Song {
 	public void setLyrics(String[] lyrics) {
 		this.lyrics = lyrics;
 	}
-	public Song(Long id, String libelle, Date releaseDate, Album album, Artist artist,
-			List<PlayList> featuringPlayLists, Genre genre, String songImage, String[] lyrics) {
+	public Song( String libelle, Date releaseDate, Album album, Artist artist,
+			List<PlayList> featuringPlayLists, Genre genre, String songPath, String[] lyrics) {
 		super();
-		this.id = id;
+	
 		this.libelle = libelle;
 		this.releaseDate = releaseDate;
 		this.album = album;
 		this.artist = artist;
 		this.featuringPlayLists = featuringPlayLists;
 		this.genre = genre;
-		this.songImage = songImage;
+		this.songPath = songPath;
 		this.lyrics = lyrics;
 	}
 	public Song() {

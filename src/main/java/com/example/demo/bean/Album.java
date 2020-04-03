@@ -58,17 +58,14 @@ public class Album {
 	public void setArtist(Artist artist) {
 		this.artist = artist;
 	}
-	
 	public String getPicture() {
 		return picture;
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	
-	public Album(Long id, String libelle, Date releaseDate, List<Song> songs, Artist artist, String picture) {
+	public Album(String libelle, Date releaseDate, List<Song> songs, Artist artist, String picture) {
 		super();
-		this.id = id;
 		this.libelle = libelle;
 		this.releaseDate = releaseDate;
 		this.songs = songs;
@@ -79,5 +76,6 @@ public class Album {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.PlayList;
+import com.example.demo.bean.Song;
 import com.example.demo.service.facade.PlayListService;
 
 @RestController
@@ -47,6 +48,14 @@ public class PlayListRest {
 	@GetMapping("/findByLibelle/Libelle/{libelle}")
 	public PlayList findByLibelle(@PathVariable("libelle") String libelle) {
 		return playListService.findByLibelle(libelle);
+	}
+	@GetMapping("/findByLibelle/Libelle/{libelle}/ListSongs")
+	public List<Song> ListSongsByLibelle(@PathVariable("libelle") String libelle) {
+		return playListService.findByLibelle(libelle).getPlayListSongs();
+	}
+	@GetMapping("/findById/Id/{id}/ListSongs")
+	public List<Song> ListSongsById(@PathVariable("id") Long id) {
+		return playListService.findById(id).getPlayListSongs();
 	}
 	
 }
