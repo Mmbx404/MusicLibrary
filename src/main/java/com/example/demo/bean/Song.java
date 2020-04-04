@@ -3,6 +3,8 @@ package com.example.demo.bean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -32,6 +35,7 @@ public class Song {
 	@ManyToOne
 	Genre genre;
 	String songPath;
+	@Column(length=100000)
     String[] lyrics;
 	public Long getId() {
 		return id;

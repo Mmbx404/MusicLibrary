@@ -72,11 +72,14 @@ public class SongServiceImpl implements SongService {
 		if (findByLibelle(song.getLibelle()) == null)
 			throw new TransactionFailedException("Song doesn't exist in database");
 		if (artistService.findbyName(song.getArtist().getName()) == null || song.getArtist() == null
-				|| genreService.findById(song.getGenre().getId()) == null || song.getGenre() == null
+				|| genreService.findByLibelle(song.getGenre().getLibelle()) == null || song.getGenre() == null
 				|| albumService.findByLibelle(song.getAlbum().getLibelle()) == null || song.getAlbum() == null)
-			throw new TransactionFailedException("Jme3 Krek ila l9iti had l msg");
+			throw new TransactionFailedException("save error");
 		if (song.getLibelle() == null || song.getLibelle() == "" || song.getReleaseDate() == null)
 			throw new TransactionFailedException("Libelle and Release date should not be empty or null");
+		song.setGenre(genreService.findByLibelle(song.getGenre().getLibelle()));
+		song.setAlbum(albumService.findByLibelle(song.getAlbum().getLibelle()));
+		song.setArtist(artistService.findbyName(song.getArtist().getName()));
 		songDao.save(song);
 		if (song.getFeaturingPlayLists().size() > 0) {
 			for (PlayList playList : song.getFeaturingPlayLists()) {
@@ -103,9 +106,12 @@ public class SongServiceImpl implements SongService {
 		if (findByLibelle(song.getLibelle()) != null)
 			throw new TransactionFailedException("Given song already exists in database");
 		if (artistService.findbyName(song.getArtist().getName()) == null || song.getArtist() == null
-				|| genreService.findById(song.getGenre().getId()) == null || song.getGenre() == null
+				|| genreService.findByLibelle(song.getGenre().getLibelle()) == null || song.getGenre() == null
 				|| albumService.findByLibelle(song.getAlbum().getLibelle()) == null || song.getAlbum() == null)
-			throw new TransactionFailedException("Jme3 krek ila l9iti had l msg");
+			throw new TransactionFailedException("save error");
+		song.setGenre(genreService.findByLibelle(song.getGenre().getLibelle()));
+		song.setAlbum(albumService.findByLibelle(song.getAlbum().getLibelle()));
+		song.setArtist(artistService.findbyName(song.getArtist().getName()));
 		songDao.save(song);
 		if (song.getLibelle() == null || song.getLibelle() == "" || song.getReleaseDate() == null)
 			throw new TransactionFailedException("Libelle and Release date should not be empty or null");

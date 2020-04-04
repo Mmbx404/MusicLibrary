@@ -75,7 +75,7 @@ public class GenreServiceImpl implements GenreService {
 	@Override
 	@Transactional
 	public int save(Genre genre) {
-		if (findById(genre.getId()) != null)
+		if (findByLibelle(genre.getLibelle()) != null)
 			throw new TransactionFailedException("Given genre already exists in database");
 		if (genre.getLibelle() == null || genre.getLibelle() == "")
 			throw new TransactionFailedException("Libelle should not be empty or null");

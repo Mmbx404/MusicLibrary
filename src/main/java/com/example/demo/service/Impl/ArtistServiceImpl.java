@@ -92,7 +92,7 @@ public class ArtistServiceImpl implements ArtistService {
 	public int save(Artist artist) {
 		if (artist.getName() == null || artist.getName() == "")
 			throw new TransactionFailedException("Name must not be empty or null");
-		if (findById(artist.getId()) != null)
+		if (findbyName(artist.getName()) != null)
 			throw new TransactionFailedException("Artist given already exists in the database");
 		artistDao.save(artist);
 		if (artist.getAlbums().size() > 0) {

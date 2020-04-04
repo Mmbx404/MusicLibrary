@@ -82,11 +82,14 @@ public class AlbumServiceImpl implements AlbumSerivce {
 	public int save(Album album) {
 		if (album.getArtist() == null || album.getLibelle() == null || album.getReleaseDate() == null)
 			throw new TransactionFailedException("Artist , Libelle and Release date must not be null or empty");
-		if (findByLibelle(album.getLibelle()) != null || artistService.findById(album.getArtist().getId()) == null)
+		if (findByLibelle(album.getLibelle()) != null || artistService.findbyName(album.getArtist().getName()) == null)
 			throw new TransactionFailedException("Album already exists in database Or given artist doesn't exist");
+		album.setArtist(artistService.findbyName(album.getArtist().getName()));
 		albumDao.save(album);
 		if (album.getSongs().size() > 0) {
 			for (Song song : album.getSongs()) {
+				song.setAlbum(album);
+				song.setArtist(album.getArtist());
 				songService.save(song);
 			}
 		}
