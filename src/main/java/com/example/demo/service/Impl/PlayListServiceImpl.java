@@ -89,16 +89,8 @@ public class PlayListServiceImpl implements PlayListService {
 		playListDao.save(playList);
 		if (playList.getPlayListSongs().size() > 0) {
 			for (Song song : playList.getPlayListSongs()) {
-				int validate = 0;
-				for (PlayList playList1 : song.getFeaturingPlayLists()) {
-					if (playList1.getLibelle() == playList.getLibelle())
-						validate = 1;
-				}
-				if (validate != 1)
-					song.getFeaturingPlayLists().add(playList);
-				if (songService.findByLibelle(song.getLibelle()) != null)
-					songService.update(song.getLibelle(), song);
-				songService.save(song);
+				Song realSong = songService.findByLibelle(song.getLibelle());
+				realSong.getFeaturingPlayLists().add(playList);
 			}
 		}
 		return 1;

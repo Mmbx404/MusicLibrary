@@ -19,8 +19,7 @@ public class PlayList {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String libelle;
-	@ManyToMany
-	@JoinTable(name = "PlayList_Song", joinColumns = @JoinColumn(name = "PlayList_id"), inverseJoinColumns = @JoinColumn(name = "Song_id"))
+	@ManyToMany(mappedBy = "featuringPlayLists")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	List<Song> playListSongs = new ArrayList<Song>();
 
